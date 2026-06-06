@@ -16,11 +16,11 @@ namespace FurkaGoWebApi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Info = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    Tech = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Quiz = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Photo = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Info = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    TechJson = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    QuizJson = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Photo = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,9 +32,8 @@ namespace FurkaGoWebApi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsAdmin = table.Column<bool>(type: "bit", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false)
                 },
                 constraints: table =>
                 {

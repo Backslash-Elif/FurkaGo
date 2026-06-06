@@ -7,13 +7,10 @@ public class User
     [Key]
     public Guid Id { get; set; }
 
-    [Required, MaxLength(200)]
-    public string Name { get; set; }
+    [Required, MaxLength(256)]
+    public string Name { get; set; } = null!;
 
-    // store password hash (see notes)
-    [Required]
-    public string PasswordHash { get; set; }
-
-    // simple admin flag
-    public bool IsAdmin { get; set; } = true;
+    // Plain-text for prototype. Later swap for hashed password.
+    [Required, MaxLength(512)]
+    public string Password { get; set; } = null!;
 }

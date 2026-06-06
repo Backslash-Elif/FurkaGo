@@ -5,15 +5,24 @@ namespace FurkaGoWebApi.Data;
 
 public class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> opts) : base(opts) {}
+    public AppDbContext(DbContextOptions<AppDbContext> opts) : base(opts) { }
 
     public DbSet<Item> Items { get; set; }
     public DbSet<User> Users { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder mb)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        mb.Entity<Item>().Property(i => i.Tech).HasColumnType("nvarchar(max)");
-        mb.Entity<Item>().Property(i => i.Quiz).HasColumnType("nvarchar(max)");
-        mb.Entity<User>().Property(u => u.PasswordHash).HasColumnName("Password");
+        // Map JSON properties to VARCHAR/NTEXT depending on preference.
+        modelBuilder.Entity<Item>()
+            .Property(i => i.TechJson)
+            .HasColumnType("nvarchar(max)");
+
+        modelBuilder.Entity<Item>()
+            .Property(i => i.QuizJson)
+            .HasColumnType("nvarchar(max)");
+
+        modelBuilder.Entity<Item>()
+            .Property(i => i.Photo)
+            .HasColumnType("varbinary(max)");
     }
 }

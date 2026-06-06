@@ -1,7 +1,6 @@
 using FurkaGoWebApi.Data;
-using FurkaGoWebApi.Helpers;
+using FurkaGoWebApi.Dto;
 using FurkaGoWebApi.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,22 +8,23 @@ namespace FurkaGoWebApi.Controllers;
 
 [ApiController]
 [Route("users")]
-[Authorize(Policy = "AdminOnly")]
 public class UsersController : ControllerBase
 {
-    private readonly IConfiguration _config;
     private readonly AppDbContext _db;
 
-    public UsersController(AppDbContext db, IConfiguration config)
+    public UsersController(AppDbContext db)
     {
         _db = db;
-        _config = config;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        return Ok(await _db.Users.Select(u => new { u.Id, u.Name }).ToListAsync());
+        var users = await _db.Users
+            .AsNoTracking()
+            .Select(u => new UserDto { Id = u.Id, Name = u.Name })
+            .ToListAsync();
+        return Ok(users);
     }
 
     [HttpGet("{id:guid}")]
@@ -32,22 +32,21 @@ public class UsersController : ControllerBase
     {
         var u = await _db.Users.FindAsync(id);
         if (u == null) return NotFound();
-        return Ok(new { u.Id, u.Name });
+        return Ok(new UserDto { Id = u.Id, Name = u.Name });
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateUserDto dto)
+    public async Task<IActionResult> Create([FromBody] CreateUserDto dto)
     {
-        var exists = await _db.Users.AnyAsync(x => x.Name == dto.Name);
-        if (exists) return Conflict("User exists");
         var user = new User
         {
-            Id = Guid.NewGuid(), Name = dto.Name, PasswordHash = Security.HashPassword(dto.Password),
-            IsAdmin = dto.IsAdmin
+            Id = Guid.NewGuid(),
+            Name = dto.Name,
+            Password = dto.Password // prototype only; later store hashed
         };
         _db.Users.Add(user);
         await _db.SaveChangesAsync();
-        return CreatedAtAction(nameof(Get), new { id = user.Id }, new { user.Id });
+        return CreatedAtAction(nameof(Get), new { id = user.Id }, new { id = user.Id });
     }
 
     [HttpDelete("{id:guid}")]
@@ -59,11 +58,4 @@ public class UsersController : ControllerBase
         await _db.SaveChangesAsync();
         return NoContent();
     }
-}
-
-public class CreateUserDto
-{
-    public string Name { get; set; }
-    public string Password { get; set; }
-    public bool IsAdmin { get; set; } = true;
 }

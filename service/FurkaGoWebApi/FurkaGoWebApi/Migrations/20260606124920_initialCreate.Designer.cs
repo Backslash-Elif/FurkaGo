@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FurkaGoWebApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260606112700_initialCreate")]
+    [Migration("20260606124920_initialCreate")]
     partial class initialCreate
     {
         /// <inheritdoc />
@@ -32,25 +32,21 @@ namespace FurkaGoWebApi.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Info")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<byte[]>("Photo")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("Quiz")
-                        .IsRequired()
+                    b.Property<string>("QuizJson")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Tech")
-                        .IsRequired()
+                    b.Property<string>("TechJson")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -64,18 +60,15 @@ namespace FurkaGoWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsAdmin")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Password");
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.HasKey("Id");
 
