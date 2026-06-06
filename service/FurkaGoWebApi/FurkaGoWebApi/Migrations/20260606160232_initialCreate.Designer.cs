@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FurkaGoWebApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260606124920_initialCreate")]
+    [Migration("20260606160232_initialCreate")]
     partial class initialCreate
     {
         /// <inheritdoc />

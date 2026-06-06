@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FurkaGoWebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e085d6e235cd499ead1894f21a205bf3576174c6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+21bdbdf4a3be87d5abc6905703c90a92da5b5614")]
 [assembly: System.Reflection.AssemblyProductAttribute("FurkaGoWebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FurkaGoWebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
