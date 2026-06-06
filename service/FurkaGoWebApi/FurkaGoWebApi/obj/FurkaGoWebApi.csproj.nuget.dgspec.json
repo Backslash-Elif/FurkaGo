@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/backslash/Documents/projects/FurkaGo/service/FurkaGoWebApi/FurkaGoWebApi/FurkaGoWebApi.csproj": {}
+    "C:\\Users\\backslash\\Documents\\projects\\FurkaGo\\service\\FurkaGoWebApi\\FurkaGoWebApi\\FurkaGoWebApi.csproj": {}
   },
   "projects": {
-    "/home/backslash/Documents/projects/FurkaGo/service/FurkaGoWebApi/FurkaGoWebApi/FurkaGoWebApi.csproj": {
+    "C:\\Users\\backslash\\Documents\\projects\\FurkaGo\\service\\FurkaGoWebApi\\FurkaGoWebApi\\FurkaGoWebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/backslash/Documents/projects/FurkaGo/service/FurkaGoWebApi/FurkaGoWebApi/FurkaGoWebApi.csproj",
+        "projectUniqueName": "C:\\Users\\backslash\\Documents\\projects\\FurkaGo\\service\\FurkaGoWebApi\\FurkaGoWebApi\\FurkaGoWebApi.csproj",
         "projectName": "FurkaGoWebApi",
-        "projectPath": "/home/backslash/Documents/projects/FurkaGo/service/FurkaGoWebApi/FurkaGoWebApi/FurkaGoWebApi.csproj",
-        "packagesPath": "/home/backslash/.nuget/packages/",
-        "outputPath": "/home/backslash/Documents/projects/FurkaGo/service/FurkaGoWebApi/FurkaGoWebApi/obj/",
+        "projectPath": "C:\\Users\\backslash\\Documents\\projects\\FurkaGo\\service\\FurkaGoWebApi\\FurkaGoWebApi\\FurkaGoWebApi.csproj",
+        "packagesPath": "C:\\Users\\backslash\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\backslash\\Documents\\projects\\FurkaGo\\service\\FurkaGoWebApi\\FurkaGoWebApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/backslash/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\backslash\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -24,6 +24,7 @@
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -38,10 +39,11 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.200"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
@@ -50,7 +52,21 @@
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[10.0.7, )"
+              "version": "[10.0.8, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[10.0.8, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[10.0.8, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[10.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
@@ -90,7 +106,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/backslash/.dotnet/sdk/10.0.203/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Users\\backslash\\.dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
