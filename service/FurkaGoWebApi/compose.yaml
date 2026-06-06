@@ -1,0 +1,7 @@
+﻿services:
+  furkagowebapi:
+    image: furkagowebapi
+    build:
+      context: .
+      dockerfile: FurkaGoWebApi/Dockerfile
+

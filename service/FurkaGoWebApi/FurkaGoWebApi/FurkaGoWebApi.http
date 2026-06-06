@@ -1,0 +1,6 @@
+@FurkaGoWebApi_HostAddress = http://localhost:5227
+
+GET {{FurkaGoWebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
