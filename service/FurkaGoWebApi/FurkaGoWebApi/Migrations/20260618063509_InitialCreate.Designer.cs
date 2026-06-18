@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FurkaGoWebApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260606160232_initialCreate")]
-    partial class initialCreate
+    [Migration("20260618063509_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,7 @@ namespace FurkaGoWebApi.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<byte[]>("Photo")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("QuizJson")

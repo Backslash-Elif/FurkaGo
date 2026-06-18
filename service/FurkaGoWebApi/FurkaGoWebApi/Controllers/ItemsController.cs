@@ -26,11 +26,7 @@ public class ItemsController : ControllerBase
             .Select(i => new ItemDto
             {
                 Id = i.Id,
-                Name = i.Name,
-                Info = i.Info,
-                Tech = i.TechJson == null ? null : JsonDocument.Parse(i.TechJson),
-                Quiz = i.QuizJson == null ? null : JsonDocument.Parse(i.QuizJson),
-                Photo = i.Photo
+                Name = i.Name
             }).ToListAsync();
 
         return Ok(items);

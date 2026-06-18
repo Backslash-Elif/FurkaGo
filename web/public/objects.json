@@ -1,0 +1,31 @@
+{
+  "0": {
+    "name": "Dampfschneeschleuder",
+    "info": "Die Dampfschneeschleuder war das Werkzeug, das die Furka-Bergstrecke auch nach starken Schneefällen wieder befahrbar machte. Mit ihrer rotierenden Schaufelwalze schleuderte sie Massen von Schnee weit zur Seite - eine Meisterleistung der Eisenbahntechnik.",
+    "tech": {
+      "type": "Dampfschneeschleuder",
+      "year": "1923",
+      "manufacturer": "SLM Winterthur",
+      "performance": "~3000 t of snow per hour",
+      "drive": "Steamlocomotive",
+      "Length": "12m"
+    },
+    "quiz": {
+      "0": {
+        "q": "Approximately how many tons of snow can the steam snow blower throw per hour?",
+        "o": ["500 tons", "3000 tons", "200 Tons"],
+        "a": 1
+      },
+      "1": {
+        "q": "What primary power source does the Dampfschneefräse on the Furka-Bergstrecke use?",
+        "o": ["Diesel engine", "Electric motor", "Steam locomotive boilers"],
+        "a": 2
+      },
+      "2": {
+        "q": "What is the main purpose of the Dampfschneefräse on the Furka-Bergstrecke?",
+        "o": ["Clearing snow from the track", "Transporting passengers over the pass", "Generating electricity for the line"],
+        "a": 0
+      }
+    }
+  }
+}

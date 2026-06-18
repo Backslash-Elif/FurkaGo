@@ -9,5 +9,5 @@ public class ItemDto
     public string? Info { get; set; }
     public JsonDocument? Tech { get; set; }
     public JsonDocument? Quiz { get; set; }
-    public byte[]? Photo { get; set; }
+    public string Photo { get; set; }
 }

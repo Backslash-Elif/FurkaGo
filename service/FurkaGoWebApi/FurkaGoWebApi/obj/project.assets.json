@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 3,
   "targets": {
     "net10.0": {
       "Azure.Core/1.47.1": {
@@ -3254,19 +3254,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\backslash\\.nuget\\packages\\": {}
+    "/home/backslash/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\backslash\\Documents\\projects\\FurkaGo\\service\\FurkaGoWebApi\\FurkaGoWebApi\\FurkaGoWebApi.csproj",
+      "projectUniqueName": "/home/backslash/Documents/projects/FurkaGo/service/FurkaGoWebApi/FurkaGoWebApi/FurkaGoWebApi.csproj",
       "projectName": "FurkaGoWebApi",
-      "projectPath": "C:\\Users\\backslash\\Documents\\projects\\FurkaGo\\service\\FurkaGoWebApi\\FurkaGoWebApi\\FurkaGoWebApi.csproj",
-      "packagesPath": "C:\\Users\\backslash\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\backslash\\Documents\\projects\\FurkaGo\\service\\FurkaGoWebApi\\FurkaGoWebApi\\obj\\",
+      "projectPath": "/home/backslash/Documents/projects/FurkaGo/service/FurkaGoWebApi/FurkaGoWebApi/FurkaGoWebApi.csproj",
+      "packagesPath": "/home/backslash/.nuget/packages/",
+      "outputPath": "/home/backslash/Documents/projects/FurkaGo/service/FurkaGoWebApi/FurkaGoWebApi/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\backslash\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/backslash/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -3276,7 +3276,6 @@
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {}
         }
@@ -3295,7 +3294,6 @@
     },
     "frameworks": {
       "net10.0": {
-        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
@@ -3358,7 +3356,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.301/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

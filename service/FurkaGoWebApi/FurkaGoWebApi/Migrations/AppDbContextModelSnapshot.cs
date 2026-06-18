@@ -38,6 +38,7 @@ namespace FurkaGoWebApi.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<byte[]>("Photo")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("QuizJson")

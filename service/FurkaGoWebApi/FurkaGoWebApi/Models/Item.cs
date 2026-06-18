@@ -21,7 +21,7 @@ public class Item
     public string? QuizJson { get; set; }
 
     // Photo stored as varbinary(max)
-    public byte[]? Photo { get; set; }
+    public string Photo { get; set; }
 
     [NotMapped]
     public JsonDocument? Tech
