@@ -2,6 +2,7 @@
 import { ApiGetAllItems, GetAllItem } from "@/components/apiClient";
 import DbImage from "@/components/dbImage";
 import { title } from "@/components/primitives";
+import QRScanner from "@/components/qrScanner";
 import { Card, Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -20,6 +21,7 @@ export default function ItemsPage() {
   return (
     <div>
       <h1 className={title()}>Items</h1>
+      <QRScanner />
       {items
         ? items.map((item) => (
             <Card key={item.id} className="w-full items-stretch md:flex-row">
