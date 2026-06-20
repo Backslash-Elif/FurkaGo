@@ -10,7 +10,16 @@ import {
   toast,
 } from "@heroui/react";
 import { useEffect, useState } from "react";
-import { ApiCreateItem, ApiGetItem, ApiUpdateItem, CreateItem, encodeFileToBase64, Item, UpdateItem } from "./apiClient";
+import {
+  ApiCreateItem,
+  ApiGetItem,
+  ApiUpdateItem,
+  CreateItem,
+  encodeFileToBase64,
+  Item,
+  UpdateItem,
+} from "./apiClient";
+import { FaPen, FaPlus } from "react-icons/fa6";
 
 type ItemEditProps = {
   editItem: string | null;
@@ -153,16 +162,15 @@ export default function ItemEdit({ editItem }: ItemEditProps) {
   }, []);
   useEffect(() => {
     const processData = async () => {
-      if (inputPhoto){
-        const data = await encodeFileToBase64(inputPhoto)
+      if (inputPhoto) {
+        const data = await encodeFileToBase64(inputPhoto);
         setInputPhotoUrl(data);
-      }
-      else {
+      } else {
         setInputPhotoUrl(null);
       }
-    }
-    
-    processData()
+    };
+
+    processData();
   }, [inputPhoto]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -196,24 +204,34 @@ export default function ItemEdit({ editItem }: ItemEditProps) {
         info: inputInfo,
         tech: parseTech(inputTech),
         quiz: parseQuiz(inputQuiz)!,
-        photo: inputPhotoUrl!
-      }
-      ApiCreateItem(createItem)
+        photo: inputPhotoUrl!,
+      };
+      ApiCreateItem(createItem);
 
       toast.success(`Created ${inputName} successfully!`);
     }
   };
   return (
     <Modal>
-      <Button>{editItem ? "Edit" : "Create"}</Button>
+      <Button variant={editItem ? "secondary" : "primary"}>
+        {editItem ? (
+          <>
+            <FaPen /> &nbsp;Edit
+          </>
+        ) : (
+          <>
+            <FaPlus /> &nbsp;Create new
+          </>
+        )}
+      </Button>
       <Modal.Backdrop isDismissable={false} isKeyboardDismissDisabled>
         <Modal.Container size="cover">
           <Modal.Dialog>
             <Modal.Header>
-              <Modal.Heading>Create Item</Modal.Heading>
+              <Modal.Heading>{editItem ? "Edit Item" : "Create new Item"}</Modal.Heading>
             </Modal.Header>
             <Modal.Body>
-              <Form onSubmit={onSubmit}>
+              <Form onSubmit={onSubmit} className="flex flex-col gap-4">
                 <TextField
                   isRequired
                   name="name"
@@ -272,12 +290,21 @@ export default function ItemEdit({ editItem }: ItemEditProps) {
                   />
                   <FieldError />
                 </TextField>
-                <input
+                <div className="flex flex-col gap-1 bg-surface-tertiary p-2 rounded-xl">
+                  <input
                   type="file"
                   accept="image/*"
                   onChange={(e) => setInputPhoto(e.target.files?.[0] ?? null)}
+                  className="py-2 px-4 bg-accent hover:bg-accent-hover text-background-inverse rounded-3xl"
                 />
-                {inputPhotoUrl && <img src={inputPhotoUrl} alt="preview" />}
+                {inputPhotoUrl && (
+                  <img
+                    src={inputPhotoUrl}
+                    alt="preview"
+                    className="w-3xs h-auto rounded-2xl"
+                  />
+                )}
+                </div>
                 <Button type="submit">{editItem ? "Save" : "Create"}</Button>
               </Form>
             </Modal.Body>

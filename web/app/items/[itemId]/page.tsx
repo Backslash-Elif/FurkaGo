@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Tabs, Button } from "@heroui/react";
+import { Tabs, Button, Card } from "@heroui/react";
 import { ApiGetItem, Item } from "@/components/apiClient";
 import DbImage from "@/components/dbImage";
 import { useRouter } from "next/navigation";
+import { HiChevronLeft } from "react-icons/hi";
 
 export default function ItemPageWrapper({
   params,
@@ -31,12 +32,16 @@ function ItemClient({ itemId }: { itemId: string }) {
   return (
     <>
       {itemId && item ? (
-        <div>
-          <Button onClick={() => router.push(`/items`)}>{"<"} Back</Button>
+        <>
+          <div className="w-full">
+            <Button onClick={() => router.push(`/items`)}>
+              <HiChevronLeft /> Back
+            </Button>
+          </div>
           <h1 className="text-3xl lg:text-4xl">{item.name}</h1>
-          <DbImage id={item.id} />
-          <div className="p-2 flex flex-col gap-2">
-            <Tabs className="w-full max-w-md">
+          <div className="flex flex-col gap-4 w-full max-w-xl">
+            <DbImage id={item.id} className="rounded-2xl" />
+            <Tabs>
               <Tabs.ListContainer>
                 <Tabs.List aria-label="Options">
                   <Tabs.Tab id="info">
@@ -54,31 +59,41 @@ function ItemClient({ itemId }: { itemId: string }) {
                 </Tabs.List>
               </Tabs.ListContainer>
               <Tabs.Panel className="pt-4" id="info">
-                <h2>Info</h2>
-                <p>{item.info}</p>
+                <Card>
+                  <Card.Content>
+                    <p className="text-justify">{item.info}</p>
+                  </Card.Content>
+                </Card>
               </Tabs.Panel>
               <Tabs.Panel className="pt-4" id="specs">
-                <h2>Specs</h2>
-                {Object.entries(item.tech).length === 0 ? (
-                  <div>{"No info... yet ;)"}</div>
-                ) : (
-                  <table>
-                    <thead>
-                      <tr>
-                        <td>Property</td>
-                        <td>Value</td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Object.entries(item.tech).map(([key, value]) => (
-                        <tr key={key}>
-                          <td>{key}</td>
-                          <td>{String(value)}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
+                <Card>
+                  <Card.Content>
+                    {Object.entries(item.tech).length === 0 ? (
+                      <div>{"No info... yet ;)"}</div>
+                    ) : (
+                      <table className="table-auto w-full text-sm border-collapse rounded-2xl">
+                        <thead className="bg-background-tertiary">
+                          <tr>
+                            <th className="px-4 py-2 text-left font-medium">
+                              Property
+                            </th>
+                            <th className="px-4 py-2 text-left font-medium">
+                              Value
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y">
+                          {Object.entries(item.tech).map(([key, value]) => (
+                            <tr key={key}>
+                              <td className="px-4 py-3 align-top font-medium whitespace-nowrap">{key}</td>
+                              <td className="px-4 py-3 align-top">{String(value)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+                  </Card.Content>
+                </Card>
               </Tabs.Panel>
               <Tabs.Panel className="pt-4" id="quiz">
                 <h2>Quiz</h2>
@@ -86,7 +101,7 @@ function ItemClient({ itemId }: { itemId: string }) {
               </Tabs.Panel>
             </Tabs>
           </div>
-        </div>
+        </>
       ) : (
         <div>Loading, Please wait...</div>
       )}

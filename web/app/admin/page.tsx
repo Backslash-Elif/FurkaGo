@@ -30,31 +30,38 @@ export default function AdminPage() {
     fetchData();
   }, []);
   return (
-    <div>
-      <h1 className={title()}>Admin</h1>
-      <ItemEdit editItem={null} />
-      {items
-        ? items.map((item) => (
-            <Card key={item.id} className="w-full items-stretch md:flex-row">
-              <div className="relative h-[140px] w-full shrink-0 overflow-hidden rounded-2xl sm:h-[120px] sm:w-[120px]">
-                <DbImage
-                  id={item.id}
-                  className="pointer-events-none absolute inset-0 h-full w-full scale-125 object-cover select-none"
-                  loading="lazy"
-                />
-              </div>
-              <div className="flex flex-1 flex-col gap-3">
-                <Card.Header className="gap-1">
-                  <Card.Title className="pr-8">{item.name}</Card.Title>
-                </Card.Header>
-                <Card.Footer className="mt-auto flex w-full flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <ItemEdit editItem={item.id} />
-                  <Button variant="danger">Delete</Button>
-                </Card.Footer>
-              </div>
-            </Card>
-          ))
-        : "Loading..."}
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col items-center p-4 gap-2">
+        <h1 className={title()}>Admin</h1>
+        <ItemEdit editItem={null} />
+      </div>
+      <div className="flex flex-wrap gap-4">
+        {items
+          ? items.map((item) => (
+              <Card
+                key={item.id}
+                className="w-md sm:w-min items-stretch sm:flex-row"
+              >
+                <div className="relative h-[140px] w-full shrink-0 overflow-hidden rounded-2xl sm:h-[120px] sm:w-[120px]">
+                  <DbImage
+                    id={item.id}
+                    className="pointer-events-none absolute inset-0 h-full w-full scale-125 object-cover select-none"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col gap-3">
+                  <Card.Header className="gap-1">
+                    <Card.Title className="pr-8">{item.name}</Card.Title>
+                  </Card.Header>
+                  <Card.Footer className="mt-auto flex w-full flex-row items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+                      <ItemEdit editItem={item.id} />
+                      <Button variant="danger">Delete</Button>
+                  </Card.Footer>
+                </div>
+              </Card>
+            ))
+          : "Loading..."}
+      </div>
     </div>
   );
 }

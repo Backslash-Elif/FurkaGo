@@ -1,11 +1,5 @@
 "use client"
-
-import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
-import { useEffect, useState } from "react";
-import { ApiGetAllItems, GetAllItem } from "@/components/apiClient";
-import { stringify } from "querystring";
 
 export default function Home() {
   return (
