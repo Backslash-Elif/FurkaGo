@@ -75,8 +75,8 @@ public class ItemsController : ControllerBase
         // Apply partial updates (only non-null fields from DTO)
         if (dto.Name != null) item.Name = dto.Name;
         if (dto.Info != null) item.Info = dto.Info;
-        if (dto.Tech != null) item.TechJson = JsonSerializer.Serialize(dto.Tech);
-        if (dto.Quiz != null) item.QuizJson = JsonSerializer.Serialize(dto.Quiz);
+        if (dto.Tech != null && dto.Tech.RootElement.ValueKind != JsonValueKind.Null) item.TechJson = JsonSerializer.Serialize(dto.Tech);
+        if (dto.Quiz != null && dto.Quiz.RootElement.ValueKind != JsonValueKind.Null) item.QuizJson = JsonSerializer.Serialize(dto.Quiz);
         if (dto.Photo != null) item.Photo = dto.Photo;
 
         _db.Items.Update(item);

@@ -1,6 +1,11 @@
+"use client"
+
 import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
+import { useEffect, useState } from "react";
+import { ApiGetAllItems, GetAllItem } from "@/components/apiClient";
+import { stringify } from "querystring";
 
 export default function Home() {
   return (
@@ -20,7 +25,7 @@ export default function Home() {
       <div className="flex gap-3">
         <a
           className="button button--primary button--md rounded-full"
-          href="/menu"
+          href="/items"
         >
           Los gehts!
         </a>

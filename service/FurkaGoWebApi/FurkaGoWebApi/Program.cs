@@ -46,6 +46,13 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true) // allow any origin
+    //.WithOrigins("https://localhost:44351")); // Allow only this origin can also have multiple origins separated with comma
+    .AllowCredentials()); // allow credentials
+
 // Run DB check + migrate logic on startup
 using (var scope = app.Services.CreateScope())
 {

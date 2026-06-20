@@ -1,12 +1,24 @@
 "use client";
+
 import { ApiGetAllItems, GetAllItem } from "@/components/apiClient";
 import DbImage from "@/components/dbImage";
+import ItemEdit from "@/components/itemEdit";
 import { title } from "@/components/primitives";
-import { Card, Button } from "@heroui/react";
+import {
+  Button,
+  Card,
+  Drawer,
+  FieldError,
+  Form,
+  Input,
+  Label,
+  TextArea,
+  TextField,
+} from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ItemsPage() {
+export default function AdminPage() {
   const router = useRouter();
   const [items, setItems] = useState<GetAllItem>();
   useEffect(() => {
@@ -19,7 +31,8 @@ export default function ItemsPage() {
   }, []);
   return (
     <div>
-      <h1 className={title()}>Items</h1>
+      <h1 className={title()}>Admin</h1>
+      <ItemEdit editItem={null} />
       {items
         ? items.map((item) => (
             <Card key={item.id} className="w-full items-stretch md:flex-row">
@@ -35,9 +48,8 @@ export default function ItemsPage() {
                   <Card.Title className="pr-8">{item.name}</Card.Title>
                 </Card.Header>
                 <Card.Footer className="mt-auto flex w-full flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <Button onClick={() => router.push(`/items/${item.id}`)}>
-                    Explore!
-                  </Button>
+                  <ItemEdit editItem={item.id} />
+                  <Button variant="danger">Delete</Button>
                 </Card.Footer>
               </div>
             </Card>
