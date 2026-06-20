@@ -52,16 +52,21 @@ enum HttpMethods {
   DELETE,
 }
 
-async function apiFetch(method: HttpMethods, path: string, body = {}) {
-  const httpMethod = HttpMethods[method].toUpperCase()
-  if (!path || typeof path !== "string")
-    throw new TypeError("path (string) required");
+async function apiFetch(method: HttpMethods, path: string, body: any = {}): Promise<any> {
+  const httpMethod = HttpMethods[method].toUpperCase();
+  if (!path || typeof path !== "string") throw new TypeError("path (string) required");
 
-  console.log(`Requesting ${httpMethod} at ${BASE_URL + path}`)
+  console.log(`Requesting ${httpMethod} at ${BASE_URL + path}`);
 
-  const init = { method: httpMethod, headers: { Accept: "application/json" } };
-  if (body != null && httpMethod !== "GET" && httpMethod !== "HEAD") {
-    init.headers["Content-Type"] = "application/json; charset=utf-8";
+  const init: RequestInit = {
+    method: httpMethod,
+    headers: {
+      Accept: "application/json",
+    },
+  };
+
+  if (body != null && httpMethod !== "GET") {
+    (init.headers as Record<string, string>)["Content-Type"] = "application/json; charset=utf-8";
     init.body = JSON.stringify(body);
   }
 
@@ -70,7 +75,7 @@ async function apiFetch(method: HttpMethods, path: string, body = {}) {
   const data = text ? JSON.parse(text) : null;
 
   if (!res.ok) {
-    const err = new Error(`HTTP ${res.status}`);
+    const err: any = new Error(`HTTP ${res.status}`);
     err.status = res.status;
     err.body = data;
     throw err;
@@ -78,6 +83,7 @@ async function apiFetch(method: HttpMethods, path: string, body = {}) {
 
   return data;
 }
+
 
 export async function ApiCreateItem(createItem: CreateItem) {
   const requestBody = {

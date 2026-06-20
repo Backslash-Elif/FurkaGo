@@ -1,8 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import clsx from "clsx";
-
-import { SunFilledIcon, MoonFilledIcon } from "@/components/icons";
+import { HiMoon, HiSun } from "react-icons/hi2";
 
 export interface ThemeSwitchProps {
   className?: string;
@@ -36,7 +35,7 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({ className }) => {
       )}
       onClick={handleToggle}
     >
-      {isLight ? <SunFilledIcon size={22} /> : <MoonFilledIcon size={22} />}
+      {isLight ? <HiSun /> : <HiMoon />}
     </button>
   );
 };

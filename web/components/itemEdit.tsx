@@ -25,17 +25,17 @@ type ItemEditProps = {
   editItem: string | null;
 };
 
-function parseTech(input: string) {
+function parseTech(input: string): Record<string, string> {
   if (typeof input !== "string") return {};
   const s = input.trim();
   if (s === "") return {};
 
-  const obj = {};
+  const obj: Record<string, string> = {};
   const lines = s.split("\n");
 
-  for (let rawLine of lines) {
+  for (const rawLine of lines) {
     const line = rawLine.trim();
-    if (line === "") continue; // tolerates blank lines
+    if (line === "") continue;
 
     const idx = line.indexOf(":");
     if (idx === -1) return {};
@@ -50,13 +50,15 @@ function parseTech(input: string) {
   return obj;
 }
 
-function constructTech(obj: object) {
+function constructTech(obj: object): string {
   if (!obj || typeof obj !== "object") return "";
   const keys = Object.keys(obj);
   if (keys.length === 0) return "";
 
-  return keys.map((k) => `${k}: ${String(obj[k])}`).join("\n") + "\n";
+  return keys.map((k) => `${k}: ${String((obj as Record<string, unknown>)[k])}`).join("\n") + "\n";
 }
+
+
 
 function parseQuiz(input: string) {
   if (typeof input !== "string") return null;
