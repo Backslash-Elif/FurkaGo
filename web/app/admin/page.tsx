@@ -2,6 +2,7 @@
 
 import { ApiGetAllItems, GetAllItem } from "@/components/apiClient";
 import DbImage from "@/components/dbImage";
+import ItemDelete from "@/components/itemDelete";
 import ItemEdit from "@/components/itemEdit";
 import { title } from "@/components/primitives";
 import {
@@ -55,7 +56,7 @@ export default function AdminPage() {
                   </Card.Header>
                   <Card.Footer className="mt-auto flex w-full flex-row items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
                       <ItemEdit editItem={item.id} />
-                      <Button variant="danger">Delete</Button>
+                      <ItemDelete id={item.id} itemName={item.name} />
                   </Card.Footer>
                 </div>
               </Card>

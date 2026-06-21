@@ -5,6 +5,7 @@ import {
   Input,
   Label,
   Modal,
+  Popover,
   TextArea,
   TextField,
   toast,
@@ -20,6 +21,7 @@ import {
   UpdateItem,
 } from "./apiClient";
 import { FaPen, FaPlus } from "react-icons/fa6";
+import { HiInformationCircle } from "react-icons/hi2";
 
 type ItemEditProps = {
   editItem: string | null;
@@ -55,10 +57,12 @@ function constructTech(obj: object): string {
   const keys = Object.keys(obj);
   if (keys.length === 0) return "";
 
-  return keys.map((k) => `${k}: ${String((obj as Record<string, unknown>)[k])}`).join("\n") + "\n";
+  return (
+    keys
+      .map((k) => `${k}: ${String((obj as Record<string, unknown>)[k])}`)
+      .join("\n") + "\n"
+  );
 }
-
-
 
 function parseQuiz(input: string) {
   if (typeof input !== "string") return null;
@@ -175,7 +179,7 @@ export default function ItemEdit({ editItem }: ItemEditProps) {
     processData();
   }, [inputPhoto]);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!parseTech(inputTech)) {
       toast.danger("Specification data is invalid. Please check formatting.");
@@ -187,6 +191,7 @@ export default function ItemEdit({ editItem }: ItemEditProps) {
     }
     if (!inputPhotoUrl) {
       toast.danger("Please supply an image.");
+      return;
     }
     if (initItem) {
       const editedItem: UpdateItem = {
@@ -198,8 +203,9 @@ export default function ItemEdit({ editItem }: ItemEditProps) {
           parseQuiz(inputQuiz) === initItem.quiz ? null : parseQuiz(inputQuiz),
         photo: inputPhotoUrl === initItem.photo ? null : inputPhotoUrl,
       };
-      ApiUpdateItem(initItem.id, editedItem);
+      await ApiUpdateItem(initItem.id, editedItem);
       toast.success(`Updated ${inputName} successfully!`);
+      window.location.reload();
     } else {
       const createItem: CreateItem = {
         name: inputName,
@@ -208,14 +214,22 @@ export default function ItemEdit({ editItem }: ItemEditProps) {
         quiz: parseQuiz(inputQuiz)!,
         photo: inputPhotoUrl!,
       };
-      ApiCreateItem(createItem);
+      const newItem = await ApiCreateItem(createItem);
 
-      toast.success(`Created ${inputName} successfully!`);
+      if (newItem) {
+        toast.success(`Created ${inputName} successfully!`);
+        window.location.reload();
+      } else {
+        toast.warning(
+          `There was an error during creation of ${inputName}. Try again`,
+        );
+      }
     }
   };
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <Modal>
-      <Button variant={editItem ? "secondary" : "primary"}>
+    <>
+      <Button variant="primary" onPress={() => setIsOpen(true)}>
         {editItem ? (
           <>
             <FaPen /> &nbsp;Edit
@@ -226,11 +240,18 @@ export default function ItemEdit({ editItem }: ItemEditProps) {
           </>
         )}
       </Button>
-      <Modal.Backdrop isDismissable={false} isKeyboardDismissDisabled>
+      <Modal.Backdrop
+        isDismissable={false}
+        isKeyboardDismissDisabled
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+      >
         <Modal.Container size="cover">
           <Modal.Dialog>
             <Modal.Header>
-              <Modal.Heading>{editItem ? "Edit Item" : "Create new Item"}</Modal.Heading>
+              <Modal.Heading>
+                {editItem ? "Edit Item" : "Create new Item"}
+              </Modal.Heading>
             </Modal.Header>
             <Modal.Body>
               <Form onSubmit={onSubmit} className="flex flex-col gap-4">
@@ -271,41 +292,117 @@ export default function ItemEdit({ editItem }: ItemEditProps) {
                     value={inputInfo}
                     onChange={(e) => setInputInfo(e.target.value)}
                     variant="secondary"
+                    rows={3}
+                    style={{ resize: "vertical" }}
                   />
                   <FieldError />
                 </TextField>
                 <TextField name="tech" type="text">
-                  <Label>Specification</Label>
+                  <div className="flex flex-row items-center">
+                    <Label>Specification</Label>
+                    &nbsp;
+                    <Popover>
+                      <Button variant="ghost">
+                        <HiInformationCircle />
+                      </Button>
+                      <Popover.Content className="max-w-64">
+                        <Popover.Dialog>
+                          <Popover.Arrow />
+                          <Popover.Heading>Specification</Popover.Heading>
+                          <p className="mt-2 text-sm text-muted">
+                            Specifications are created with a property followed
+                            by a colon followed by a value and terminated with a
+                            new line.
+                            <br />
+                            Here's an example:
+                          </p>
+                          <div className="bg-background w-fit p-2">
+                            <code>
+                              Weight: 1000kg
+                              <br />
+                              Height: 300cm
+                              <br />
+                              my Property: my Value
+                              <br />
+                              x: y
+                            </code>
+                          </div>
+                        </Popover.Dialog>
+                      </Popover.Content>
+                    </Popover>
+                  </div>
                   <TextArea
                     value={inputTech}
                     onChange={(e) => setInputTech(e.target.value)}
                     variant="secondary"
+                    rows={6}
+                    style={{ resize: "vertical" }}
                   />
                   <FieldError />
                 </TextField>
                 <TextField name="quiz" type="text">
-                  <Label>Quiz</Label>
+                  <div className="flex flex-row items-center">
+                    <Label>Quiz</Label>
+                    &nbsp;
+                    <Popover>
+                      <Button variant="ghost">
+                        <HiInformationCircle />
+                      </Button>
+                      <Popover.Content className="max-w-64 overflow-scroll">
+                        <Popover.Dialog>
+                          <Popover.Arrow />
+                          <Popover.Heading>Quiz</Popover.Heading>
+                          <p className="mt-2 text-sm text-muted">
+                            A quiz has a specific set of rules: <br />
+                            Quizzes must be defined in this order: Question, Options, Answer.
+                            You may create multiple quizzes. <br />
+                            To create a question, write a @ followed by the question. <br />
+                            Next, on a new line start with $ followed by an option, repeat this step until you have 2 or more options.
+                            Finally on a new line add # followed by the number of the correct option (please note that this is 0-based indexing / the first option will be option 0 and so on) <br />
+                            Here's an example:
+                          </p>
+                          <div className="bg-background w-fit p-2">
+                            <code>
+                              @In which continent lies Switzerland?<br />
+                              $America<br />
+                              $Europe<br />
+                              $Asia<br />
+                              #1<br />
+                              @Your question<br />
+                              $your wrong option<br />
+                              $your 2nd wrong option<br />
+                              $your 3rd wrong option<br />
+                              $your correct option<br />
+                              #3
+                            </code>
+                          </div>
+                        </Popover.Dialog>
+                      </Popover.Content>
+                    </Popover>
+                  </div>
                   <TextArea
                     value={inputQuiz}
                     onChange={(e) => setInputQuiz(e.target.value)}
                     variant="secondary"
+                    rows={6}
+                    style={{ resize: "vertical" }}
                   />
                   <FieldError />
                 </TextField>
                 <div className="flex flex-col gap-1 bg-surface-tertiary p-2 rounded-xl">
                   <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setInputPhoto(e.target.files?.[0] ?? null)}
-                  className="py-2 px-4 bg-accent hover:bg-accent-hover text-background-inverse rounded-3xl"
-                />
-                {inputPhotoUrl && (
-                  <img
-                    src={inputPhotoUrl}
-                    alt="preview"
-                    className="w-3xs h-auto rounded-2xl"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setInputPhoto(e.target.files?.[0] ?? null)}
+                    className="py-2 px-4 bg-accent hover:bg-accent-hover text-background-inverse rounded-3xl"
                   />
-                )}
+                  {inputPhotoUrl && (
+                    <img
+                      src={inputPhotoUrl}
+                      alt="preview"
+                      className="w-3xs h-auto rounded-2xl"
+                    />
+                  )}
                 </div>
                 <Button type="submit">{editItem ? "Save" : "Create"}</Button>
               </Form>
@@ -318,6 +415,6 @@ export default function ItemEdit({ editItem }: ItemEditProps) {
           </Modal.Dialog>
         </Modal.Container>
       </Modal.Backdrop>
-    </Modal>
+    </>
   );
 }

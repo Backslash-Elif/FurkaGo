@@ -119,7 +119,7 @@ export async function ApiUpdateItem(id: string, updateItem: UpdateItem) {
 }
 
 export async function ApiDeleteItem(id: string) {
-  await apiFetch(HttpMethods.GET, `/items/${id}`)
+  await apiFetch(HttpMethods.DELETE, `/items/${id}`)
 }
 
 export async function ApiCreateUser(createUser: CreateUser) {
@@ -142,5 +142,5 @@ export async function ApiGetUser(id: string) {
 }
 
 export async function ApiDeleteUser(id: string) {
-  await apiFetch(HttpMethods.GET, `/users/${id}`)
+  await apiFetch(HttpMethods.DELETE, `/users/${id}`)
 }

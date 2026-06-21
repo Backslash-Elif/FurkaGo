@@ -40,8 +40,9 @@ export default function QRScanner({ className, style, viewfinderSize = 0.6 }: an
           await videoRef.current.play();
           tick();
         }
-      } catch {
+      } catch (e) {
         setError("Camera not available or permission denied");
+        console.error(e)
       }
     }
 
