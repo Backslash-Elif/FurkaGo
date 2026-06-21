@@ -4,7 +4,7 @@ import { ThemeSwitch } from "@/components/theme-switch";
 import { Button, Card, Dropdown, Header, Label } from "@heroui/react";
 import type { Selection } from "@heroui/react";
 import { useState } from "react";
-import { HiLanguage } from "react-icons/hi2";
+import { HiChevronRight, HiLanguage } from "react-icons/hi2";
 import { LuPartyPopper } from "react-icons/lu";
 
 export default function Home() {
@@ -12,13 +12,13 @@ export default function Home() {
 
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+      <span className={title()}>Furka-Bergstrecke</span>
       <div className="max-h-80 rounded-2xl overflow-hidden">
         <img src="/furka_bg.png" alt="furka backdrop" className="w-full" />
       </div>
       <div className="inline-block max-w-xl text-center justify-center">
-        <span className={title()}>Furka-Bergstrecke</span>
         <div className={subtitle({ class: "mt-4" })}>
-          Entdecken Sie unsere Austellung
+          Explore our exhibition
         </div>
       </div>
 
@@ -27,13 +27,13 @@ export default function Home() {
           className="button button--primary button--md rounded-full"
           href="/items"
         >
-          Los gehts!
+          Let's go! <HiChevronRight />
         </a>
       </div>
       <div className="flex flex-row justify-around w-full max-w-2xl">
         <ThemeSwitch />
         <Dropdown>
-          <Button aria-label="Menu" variant="ghost">
+          <Button aria-label="Menu" variant="outline">
             <HiLanguage />
           </Button>
           <Dropdown.Popover className="min-w-[256px]">

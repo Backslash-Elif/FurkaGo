@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import jsQR, { QRCode } from "jsqr";
 import { useRouter } from "next/navigation";
 import { Button, Disclosure } from "@heroui/react";
+import { HiQrCode } from "react-icons/hi2";
 
 export default function QRScanner({
   className,
@@ -193,7 +194,7 @@ export default function QRScanner({
       <Disclosure className="w-full flex flex-col items-center" isExpanded={false} onExpandedChange={setIsExpanded}>
         <Disclosure.Heading className="w-full flex flex-col items-center">
           <Button slot="trigger" variant="secondary">
-            Open Camera
+            <HiQrCode /> Scan QR
             <Disclosure.Indicator />
           </Button>
         </Disclosure.Heading>
@@ -206,7 +207,7 @@ export default function QRScanner({
       <Disclosure isExpanded={isExpanded} onExpandedChange={setIsExpanded}>
         <Disclosure.Heading>
           <Button slot="trigger" variant="secondary">
-            Open Camera
+            <HiQrCode /> Scan QR
             <Disclosure.Indicator />
           </Button>
         </Disclosure.Heading>

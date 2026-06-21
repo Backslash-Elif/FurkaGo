@@ -7,7 +7,8 @@ import DbImage from "@/components/dbImage";
 import { useRouter } from "next/navigation";
 import { HiChevronLeft } from "react-icons/hi";
 import { franc } from "franc";
-import { HiPlay, HiStop } from "react-icons/hi2";
+import { HiCpuChip, HiInformationCircle, HiLightBulb, HiPlay, HiStop } from "react-icons/hi2";
+import LoadingDisplay from "@/components/loadingDisplay";
 
 type QuizItem = { q: string; o: string[]; a: number };
 
@@ -134,15 +135,15 @@ function ItemClient({ itemId }: { itemId: string }) {
               <Tabs.ListContainer>
                 <Tabs.List aria-label="Options">
                   <Tabs.Tab id="info">
-                    Information
+                    Info&nbsp; <HiInformationCircle className="text-xl" />
                     <Tabs.Indicator />
                   </Tabs.Tab>
                   <Tabs.Tab id="specs">
-                    Specification
+                    Specs&nbsp; <HiCpuChip className="text-xl" />
                     <Tabs.Indicator />
                   </Tabs.Tab>
                   <Tabs.Tab id="quiz">
-                    Quiz
+                    Quiz&nbsp; <HiLightBulb className="text-xl" />
                     <Tabs.Indicator />
                   </Tabs.Tab>
                 </Tabs.List>
@@ -294,7 +295,7 @@ function ItemClient({ itemId }: { itemId: string }) {
           </div>
         </>
       ) : (
-        <div>Loading, Please wait...</div>
+        <LoadingDisplay />
       )}
     </>
   );

@@ -4,6 +4,7 @@ import { ApiGetAllItems, GetAllItem } from "@/components/apiClient";
 import DbImage from "@/components/dbImage";
 import ItemDelete from "@/components/itemDelete";
 import ItemEdit from "@/components/itemEdit";
+import LoadingDisplay from "@/components/loadingDisplay";
 import { title } from "@/components/primitives";
 import {
   Button,
@@ -61,7 +62,7 @@ export default function AdminPage() {
                 </div>
               </Card>
             ))
-          : "Loading..."}
+          : <LoadingDisplay />}
       </div>
     </div>
   );
