@@ -19,5 +19,9 @@ export default function DbImage({ id, ...params }: DbImageProps) {
 
     fetchData();
   }, []);
-  return <>{item ? <img src={item?.photo} alt="image" {...params} /> : "[img load]"}</>;
+  return (
+    <>
+      {item ? <img src={item?.photo} alt="image" {...params} /> : "[img load]"}
+    </>
+  );
 }

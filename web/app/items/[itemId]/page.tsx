@@ -7,6 +7,7 @@ import DbImage from "@/components/dbImage";
 import { useRouter } from "next/navigation";
 import { HiChevronLeft } from "react-icons/hi";
 import { franc } from "franc";
+import { HiPlay, HiStop } from "react-icons/hi2";
 
 type QuizItem = { q: string; o: string[]; a: number };
 
@@ -116,6 +117,7 @@ function ItemClient({ itemId }: { itemId: string }) {
     }
   }, [item]);
 
+  const [isTtsPlaying, setIsTtsPlaying] = useState(false);
   return (
     <>
       {itemId && item ? (
@@ -149,58 +151,66 @@ function ItemClient({ itemId }: { itemId: string }) {
               <Tabs.Panel className="pt-4" id="info">
                 <Card>
                   <Card.Content>
-                    <div className="flex items-center gap-3 mb-3">
-                      <Button
-                        variant="outline"
-                        onPress={async () => {
-                          if (typeof window === "undefined") return;
-                          if (!("speechSynthesis" in window)) {
-                            toast.warning(
-                              "Text-to-speech not supported in this browser.",
+                    <div className="flex items-center gap-3 mb-3 bg-surface-secondary rounded-2xl">
+                      {isTtsPlaying ? (
+                        <Button
+                          variant="danger-soft"
+                          onPress={() => {
+                            if (typeof window === "undefined") return;
+                            if (!("speechSynthesis" in window)) return;
+                            window.speechSynthesis.cancel();
+                            setIsTtsPlaying(false);
+                          }}
+                        >
+                          <HiStop />
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="secondary"
+                          onPress={async () => {
+                            if (typeof window === "undefined") return;
+                            if (!("speechSynthesis" in window)) {
+                              toast.warning(
+                                "Text-to-speech not supported in this browser.",
+                              );
+                              return;
+                            }
+
+                            window.speechSynthesis.cancel();
+
+                            const text = (item?.info ?? "").trim();
+                            if (!text) {
+                              toast.warning("Nothing to read.");
+                              return;
+                            }
+
+                            const detectedLang = detectLanguageFr(text); // e.g. "fr", "es", "en", etc.
+                            const utterance = new SpeechSynthesisUtterance(
+                              text,
                             );
-                            return;
-                          }
 
-                          window.speechSynthesis.cancel();
+                            // Prefer matched voice when we can
+                            if (detectedLang) {
+                              const voice =
+                                await pickVoiceForLang(detectedLang);
+                              if (voice) utterance.voice = voice;
+                              utterance.lang = detectedLang;
+                            } else {
+                              // fallback to browser language
+                              utterance.lang = navigator.language || "en";
+                            }
 
-                          const text = (item?.info ?? "").trim();
-                          if (!text) {
-                            toast.warning("Nothing to read.");
-                            return;
-                          }
+                            utterance.rate = 1;
+                            utterance.pitch = 1;
 
-                          const detectedLang = detectLanguageFr(text); // e.g. "fr", "es", "en", etc.
-                          const utterance = new SpeechSynthesisUtterance(text);
-
-                          // Prefer matched voice when we can
-                          if (detectedLang) {
-                            const voice = await pickVoiceForLang(detectedLang);
-                            if (voice) utterance.voice = voice;
-                            utterance.lang = detectedLang;
-                          } else {
-                            // fallback to browser language
-                            utterance.lang = navigator.language || "en";
-                          }
-
-                          utterance.rate = 1;
-                          utterance.pitch = 1;
-
-                          window.speechSynthesis.speak(utterance);
-                        }}
-                      >
-                        Read aloud
-                      </Button>
-                      <Button
-                        variant="danger-soft"
-                        onPress={() => {
-                          if (typeof window === "undefined") return;
-                          if (!("speechSynthesis" in window)) return;
-                          window.speechSynthesis.cancel();
-                          toast.success("Stopped.");
-                        }}
-                      >
-                        Stop
-                      </Button>
+                            window.speechSynthesis.speak(utterance);
+                            setIsTtsPlaying(true);
+                          }}
+                        >
+                          <HiPlay />
+                        </Button>
+                      )}
+                      <p>Play Audio Narration</p>
                     </div>
                     <p className="text-justify">{item.info}</p>
                   </Card.Content>

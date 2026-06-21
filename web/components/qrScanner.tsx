@@ -4,7 +4,11 @@ import jsQR, { QRCode } from "jsqr";
 import { useRouter } from "next/navigation";
 import { Button, Disclosure } from "@heroui/react";
 
-export default function QRScanner({ className, style, viewfinderSize = 0.6 }: any) {
+export default function QRScanner({
+  className,
+  style,
+  viewfinderSize = 0.6,
+}: any) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -42,7 +46,7 @@ export default function QRScanner({ className, style, viewfinderSize = 0.6 }: an
         }
       } catch (e) {
         setError("Camera not available or permission denied");
-        console.error(e)
+        console.error(e);
       }
     }
 
@@ -74,9 +78,12 @@ export default function QRScanner({ className, style, viewfinderSize = 0.6 }: an
         bottomLeftCorner: { x: number; y: number };
       },
       offsetX = 0,
-      offsetY = 0
+      offsetY = 0,
     ) {
-      const stroke = (p1: { x: number; y: number }, p2: { x: number; y: number }) => {
+      const stroke = (
+        p1: { x: number; y: number },
+        p2: { x: number; y: number },
+      ) => {
         ctx.strokeStyle = "lime";
         ctx.lineWidth = 4;
         ctx.beginPath();
@@ -120,12 +127,22 @@ export default function QRScanner({ className, style, viewfinderSize = 0.6 }: an
 
       ctx.drawImage(video, 0, 0, vw, vh);
 
-      const size = Math.min(vw, vh) * Math.max(0.01, Math.min(1, viewfinderSize));
+      const size =
+        Math.min(vw, vh) * Math.max(0.01, Math.min(1, viewfinderSize));
       const sx = Math.round((vw - size) / 2);
       const sy = Math.round((vh - size) / 2);
 
-      const imageData = ctx.getImageData(sx, sy, Math.round(size), Math.round(size));
-      const code = jsQR(imageData.data, imageData.width, imageData.height) as QRCode | null;
+      const imageData = ctx.getImageData(
+        sx,
+        sy,
+        Math.round(size),
+        Math.round(size),
+      );
+      const code = jsQR(
+        imageData.data,
+        imageData.width,
+        imageData.height,
+      ) as QRCode | null;
 
       if (code) {
         drawBoundingBox(ctx, code.location, sx, sy);
@@ -210,8 +227,15 @@ export default function QRScanner({ className, style, viewfinderSize = 0.6 }: an
 
           <canvas ref={canvasRef} style={{ display: "none" }} />
 
-          {error && <div style={{ color: "red", marginTop: 8 }} role="status">{error}</div>}
-          <p>Depending on your device the QR scanner might need a few seconds to start. No data is being processed remotely.</p>
+          {error && (
+            <div style={{ color: "red", marginTop: 8 }} role="status">
+              {error}
+            </div>
+          )}
+          <p>
+            Depending on your device the QR scanner might need a few seconds to
+            start. No data is being processed remotely.
+          </p>
         </Disclosure.Body>
       </Disclosure.Content>
     </Disclosure>

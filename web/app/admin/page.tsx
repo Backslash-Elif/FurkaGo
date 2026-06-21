@@ -55,8 +55,8 @@ export default function AdminPage() {
                     <Card.Title className="pr-8">{item.name}</Card.Title>
                   </Card.Header>
                   <Card.Footer className="mt-auto flex w-full flex-row items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <ItemEdit editItem={item.id} />
-                      <ItemDelete id={item.id} itemName={item.name} />
+                    <ItemEdit editItem={item.id} />
+                    <ItemDelete id={item.id} itemName={item.name} />
                   </Card.Footer>
                 </div>
               </Card>

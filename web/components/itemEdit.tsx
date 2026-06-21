@@ -354,25 +354,41 @@ export default function ItemEdit({ editItem }: ItemEditProps) {
                           <Popover.Heading>Quiz</Popover.Heading>
                           <p className="mt-2 text-sm text-muted">
                             A quiz has a specific set of rules: <br />
-                            Quizzes must be defined in this order: Question, Options, Answer.
-                            You may create multiple quizzes. <br />
-                            To create a question, write a @ followed by the question. <br />
-                            Next, on a new line start with $ followed by an option, repeat this step until you have 2 or more options.
-                            Finally on a new line add # followed by the number of the correct option (please note that this is 0-based indexing / the first option will be option 0 and so on) <br />
+                            Quizzes must be defined in this order: Question,
+                            Options, Answer. You may create multiple quizzes.{" "}
+                            <br />
+                            To create a question, write a @ followed by the
+                            question. <br />
+                            Next, on a new line start with $ followed by an
+                            option, repeat this step until you have 2 or more
+                            options. Finally on a new line add # followed by the
+                            number of the correct option (please note that this
+                            is 0-based indexing / the first option will be
+                            option 0 and so on) <br />
                             Here's an example:
                           </p>
                           <div className="bg-background w-fit p-2">
                             <code>
-                              @In which continent lies Switzerland?<br />
-                              $America<br />
-                              $Europe<br />
-                              $Asia<br />
-                              #1<br />
-                              @Your question<br />
-                              $your wrong option<br />
-                              $your 2nd wrong option<br />
-                              $your 3rd wrong option<br />
-                              $your correct option<br />
+                              @In which continent lies Switzerland?
+                              <br />
+                              $America
+                              <br />
+                              $Europe
+                              <br />
+                              $Asia
+                              <br />
+                              #1
+                              <br />
+                              @Your question
+                              <br />
+                              $your wrong option
+                              <br />
+                              $your 2nd wrong option
+                              <br />
+                              $your 3rd wrong option
+                              <br />
+                              $your correct option
+                              <br />
                               #3
                             </code>
                           </div>

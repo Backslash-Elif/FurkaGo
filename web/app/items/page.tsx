@@ -27,26 +27,32 @@ export default function ItemsPage() {
       </div>
       <div className="flex flex-wrap gap-4">
         {items
-        ? items.map((item) => (
-            <Card key={item.id} className="w-md items-stretch sm:flex-row hover:cursor-pointer" onClick={() => router.push(`/items/${item.id}`)}>
-              <div className="relative h-[140px] w-full shrink-0 overflow-hidden rounded-2xl sm:h-[120px] sm:w-[120px]">
-                <DbImage
-                  id={item.id}
-                  className="pointer-events-none absolute inset-0 h-full w-full scale-125 object-cover select-none"
-                  loading="lazy"
-                />
-              </div>
-              <div className="flex flex-1 flex-col gap-3">
-                <Card.Header className="gap-1">
-                  <Card.Title className="pr-8 text-xl">{item.name}</Card.Title>
-                </Card.Header>
-                <Card.Footer className="text-3xl text-muted">
-                  <HiArrowRight />
-                </Card.Footer>
-              </div>
-            </Card>
-          ))
-        : "Loading..."}
+          ? items.map((item) => (
+              <Card
+                key={item.id}
+                className="w-md items-stretch sm:flex-row hover:cursor-pointer"
+                onClick={() => router.push(`/items/${item.id}`)}
+              >
+                <div className="relative h-[140px] w-full shrink-0 overflow-hidden rounded-2xl sm:h-[120px] sm:w-[120px]">
+                  <DbImage
+                    id={item.id}
+                    className="pointer-events-none absolute inset-0 h-full w-full scale-125 object-cover select-none"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col gap-3">
+                  <Card.Header className="gap-1">
+                    <Card.Title className="pr-8 text-xl">
+                      {item.name}
+                    </Card.Title>
+                  </Card.Header>
+                  <Card.Footer className="text-3xl text-muted">
+                    <HiArrowRight />
+                  </Card.Footer>
+                </div>
+              </Card>
+            ))
+          : "Loading..."}
       </div>
     </div>
   );

@@ -13,10 +13,13 @@ export type Item = {
 
 export type GetAllItem = Pick<Item, "id" | "name">[];
 
-export type CreateItem = Omit<Partial<Omit<Item, 'id'>>, 'name' | 'info' | 'photo'> & {
-  name: Item['name'];
-  info: Item['info'];
-  photo: Item['photo'];
+export type CreateItem = Omit<
+  Partial<Omit<Item, "id">>,
+  "name" | "info" | "photo"
+> & {
+  name: Item["name"];
+  info: Item["info"];
+  photo: Item["photo"];
 };
 
 export type UpdateItem = NullablePartial<Omit<Item, "id">>;
@@ -38,9 +41,10 @@ export function encodeFileToBase64(file: Blob | null): Promise<string | null> {
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result;
-      resolve(typeof result === 'string' ? result : null);
+      resolve(typeof result === "string" ? result : null);
     };
-    reader.onerror = () => reject(reader.error ?? new Error('FileReader error'));
+    reader.onerror = () =>
+      reject(reader.error ?? new Error("FileReader error"));
     reader.readAsDataURL(file);
   });
 }
@@ -52,9 +56,14 @@ enum HttpMethods {
   DELETE,
 }
 
-async function apiFetch(method: HttpMethods, path: string, body: any = {}): Promise<any> {
+async function apiFetch(
+  method: HttpMethods,
+  path: string,
+  body: any = {},
+): Promise<any> {
   const httpMethod = HttpMethods[method].toUpperCase();
-  if (!path || typeof path !== "string") throw new TypeError("path (string) required");
+  if (!path || typeof path !== "string")
+    throw new TypeError("path (string) required");
 
   console.log(`Requesting ${httpMethod} at ${BASE_URL + path}`);
 
@@ -66,7 +75,8 @@ async function apiFetch(method: HttpMethods, path: string, body: any = {}): Prom
   };
 
   if (body != null && httpMethod !== "GET") {
-    (init.headers as Record<string, string>)["Content-Type"] = "application/json; charset=utf-8";
+    (init.headers as Record<string, string>)["Content-Type"] =
+      "application/json; charset=utf-8";
     init.body = JSON.stringify(body);
   }
 
@@ -84,27 +94,30 @@ async function apiFetch(method: HttpMethods, path: string, body: any = {}): Prom
   return data;
 }
 
-
 export async function ApiCreateItem(createItem: CreateItem) {
   const requestBody = {
     name: createItem.name,
     info: createItem.info,
     tech: createItem.tech,
     quiz: createItem.quiz,
-    photo: createItem.photo
-  }
-  const result: Partial<Item> = await apiFetch(HttpMethods.POST, "/items", requestBody)
-  return result.id
+    photo: createItem.photo,
+  };
+  const result: Partial<Item> = await apiFetch(
+    HttpMethods.POST,
+    "/items",
+    requestBody,
+  );
+  return result.id;
 }
 
 export async function ApiGetAllItems() {
-  const result: GetAllItem = await apiFetch(HttpMethods.GET, "/items")
-  return result
+  const result: GetAllItem = await apiFetch(HttpMethods.GET, "/items");
+  return result;
 }
 
 export async function ApiGetItem(id: string) {
-  const result: Item = await apiFetch(HttpMethods.GET, `/items/${id}`)
-  return result
+  const result: Item = await apiFetch(HttpMethods.GET, `/items/${id}`);
+  return result;
 }
 
 export async function ApiUpdateItem(id: string, updateItem: UpdateItem) {
@@ -113,34 +126,38 @@ export async function ApiUpdateItem(id: string, updateItem: UpdateItem) {
     info: updateItem.info,
     tech: updateItem.tech,
     quiz: updateItem.quiz,
-    photo: updateItem.photo
-  }
-  await apiFetch(HttpMethods.PATCH, `/items/${id}`, requestBody)
+    photo: updateItem.photo,
+  };
+  await apiFetch(HttpMethods.PATCH, `/items/${id}`, requestBody);
 }
 
 export async function ApiDeleteItem(id: string) {
-  await apiFetch(HttpMethods.DELETE, `/items/${id}`)
+  await apiFetch(HttpMethods.DELETE, `/items/${id}`);
 }
 
 export async function ApiCreateUser(createUser: CreateUser) {
   const requestBody = {
     name: createUser.name,
-    password: createUser.password
-  }
-  const result: Partial<User> = await apiFetch(HttpMethods.POST, "/users", requestBody)
-  return result.id
+    password: createUser.password,
+  };
+  const result: Partial<User> = await apiFetch(
+    HttpMethods.POST,
+    "/users",
+    requestBody,
+  );
+  return result.id;
 }
 
 export async function ApiGetAllUsers() {
-  const result: SafeUser = await apiFetch(HttpMethods.GET, "/users")
-  return result
+  const result: SafeUser = await apiFetch(HttpMethods.GET, "/users");
+  return result;
 }
 
 export async function ApiGetUser(id: string) {
-  const result: SafeUser = await apiFetch(HttpMethods.GET, `/users/${id}`)
-  return result
+  const result: SafeUser = await apiFetch(HttpMethods.GET, `/users/${id}`);
+  return result;
 }
 
 export async function ApiDeleteUser(id: string) {
-  await apiFetch(HttpMethods.DELETE, `/users/${id}`)
+  await apiFetch(HttpMethods.DELETE, `/users/${id}`);
 }
