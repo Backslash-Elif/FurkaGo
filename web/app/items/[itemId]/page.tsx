@@ -6,8 +6,78 @@ import { ApiGetItem, Item } from "@/components/apiClient";
 import DbImage from "@/components/dbImage";
 import { useRouter } from "next/navigation";
 import { HiChevronLeft } from "react-icons/hi";
+import { franc } from "franc";
 
 type QuizItem = { q: string; o: string[]; a: number };
+
+function mapFrancToBCP47(francCode: string) {
+  // franc returns ISO 639-3 codes; we map a subset to BCP-47-ish language tags
+  const map: Record<string, string> = {
+    eng: "en",
+    spa: "es",
+    fra: "fr",
+    deu: "de",
+    ita: "it",
+    por: "pt",
+    nld: "nl",
+    tur: "tr",
+    pol: "pl",
+    rus: "ru",
+    ara: "ar",
+    hin: "hi",
+    ben: "bn",
+    pan: "pa",
+    jpn: "ja",
+    kor: "ko",
+    cmn: "zh",
+    zho: "zh",
+    swe: "sv",
+    nor: "no",
+    dan: "da",
+    ukr: "uk",
+    hun: "hu",
+    vie: "vi",
+    ind: "id",
+    tha: "th",
+    kat: "ka",
+    ron: "ro",
+    ell: "el",
+    // add more as needed
+  };
+
+  return map[francCode] || francCode; // fallback to the franc code (might not match voices)
+}
+
+function normalizeLang(lang: string) {
+  return (lang || "").split("-")[0];
+}
+
+async function pickVoiceForLang(targetLang: string) {
+  const synth = window.speechSynthesis;
+
+  let voices = synth.getVoices();
+  if (!voices || voices.length === 0) {
+    await new Promise<void>((resolve) => {
+      synth.onvoiceschanged = () => resolve();
+      setTimeout(() => resolve(), 800);
+    });
+    voices = synth.getVoices();
+  }
+
+  const exact = voices.find((v) => v.lang === targetLang);
+  if (exact) return exact;
+
+  const short = normalizeLang(targetLang);
+  const baseMatch = voices.find((v) => normalizeLang(v.lang) === short);
+  return baseMatch || null;
+}
+
+function detectLanguageFr(text: string) {
+  // franc expects a string with enough text; returns "und" if uncertain
+  const lang3 = franc(text, { minLength: 20 });
+  if (lang3 === "und") return null;
+  return mapFrancToBCP47(lang3);
+}
 
 export default function ItemPageWrapper({
   params,
@@ -79,6 +149,59 @@ function ItemClient({ itemId }: { itemId: string }) {
               <Tabs.Panel className="pt-4" id="info">
                 <Card>
                   <Card.Content>
+                    <div className="flex items-center gap-3 mb-3">
+                      <Button
+                        variant="outline"
+                        onPress={async () => {
+                          if (typeof window === "undefined") return;
+                          if (!("speechSynthesis" in window)) {
+                            toast.warning(
+                              "Text-to-speech not supported in this browser.",
+                            );
+                            return;
+                          }
+
+                          window.speechSynthesis.cancel();
+
+                          const text = (item?.info ?? "").trim();
+                          if (!text) {
+                            toast.warning("Nothing to read.");
+                            return;
+                          }
+
+                          const detectedLang = detectLanguageFr(text); // e.g. "fr", "es", "en", etc.
+                          const utterance = new SpeechSynthesisUtterance(text);
+
+                          // Prefer matched voice when we can
+                          if (detectedLang) {
+                            const voice = await pickVoiceForLang(detectedLang);
+                            if (voice) utterance.voice = voice;
+                            utterance.lang = detectedLang;
+                          } else {
+                            // fallback to browser language
+                            utterance.lang = navigator.language || "en";
+                          }
+
+                          utterance.rate = 1;
+                          utterance.pitch = 1;
+
+                          window.speechSynthesis.speak(utterance);
+                        }}
+                      >
+                        Read aloud
+                      </Button>
+                      <Button
+                        variant="danger-soft"
+                        onPress={() => {
+                          if (typeof window === "undefined") return;
+                          if (!("speechSynthesis" in window)) return;
+                          window.speechSynthesis.cancel();
+                          toast.success("Stopped.");
+                        }}
+                      >
+                        Stop
+                      </Button>
+                    </div>
                     <p className="text-justify">{item.info}</p>
                   </Card.Content>
                 </Card>
@@ -134,7 +257,11 @@ function ItemClient({ itemId }: { itemId: string }) {
                               key={idx}
                               variant="tertiary"
                               className="justify-start"
-                              onPress={() => {idx === quizPick.a ? toast.success("Correct!") : toast("Incorrect. Try again")}}
+                              onPress={() => {
+                                idx === quizPick.a
+                                  ? toast.success("Correct!")
+                                  : toast("Incorrect. Try again");
+                              }}
                             >
                               {option}
                             </Button>
