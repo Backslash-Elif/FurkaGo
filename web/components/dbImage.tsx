@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ApiGetItem, Item } from "./apiClient";
+import { Spinner } from "@heroui/react";
 
 type DbImageParams = {
   id: string;
@@ -21,7 +22,13 @@ export default function DbImage({ id, ...params }: DbImageProps) {
   }, []);
   return (
     <>
-      {item ? <img src={item?.photo} alt="image" {...params} /> : "[img load]"}
+      {item ? (
+        <img src={item?.photo} alt="image" {...params} />
+      ) : (
+        <div className="flex items-center gap-4 p-4">
+          <Spinner />
+        </div>
+      )}
     </>
   );
 }
