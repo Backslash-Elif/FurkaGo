@@ -188,6 +188,14 @@ function ItemClient({ itemId }: { itemId: string }) {
                             const utterance = new SpeechSynthesisUtterance(
                               text,
                             );
+                            utterance.onend = () => {
+                              setIsTtsPlaying(false);
+                            };
+
+                            utterance.onerror = () => {
+                              setIsTtsPlaying(false);
+                              toast.danger("Speech Synthesis error.")
+                            };
 
                             // Prefer matched voice when we can
                             if (detectedLang) {
