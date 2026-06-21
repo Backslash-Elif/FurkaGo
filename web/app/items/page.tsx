@@ -6,7 +6,7 @@ import QRScanner from "@/components/qrScanner";
 import { Card, Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { HiArrowRight } from "react-icons/hi";
+import { HiArrowRight, HiChevronLeft } from "react-icons/hi";
 
 export default function ItemsPage() {
   const router = useRouter();
@@ -22,6 +22,11 @@ export default function ItemsPage() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col items-center p-4 gap-2">
+        <div className="w-full">
+          <Button variant="outline" onPress={() => router.push(`/`)}>
+            <HiChevronLeft /> Home
+          </Button>
+        </div>
         <h1 className={title()}>Our Collection</h1>
         <QRScanner />
       </div>
